@@ -1,6 +1,6 @@
-CMakeFiles/a.out.dir/main.cc.o: /home/qc/CMake/main.cc \
- /usr/include/stdc-predef.h /usr/include/c++/13/iostream \
- /usr/include/c++/13/bits/requires_hosted.h \
+project2/CMakeFiles/project2.dir/src/project2.cc.o: \
+ /home/qc/CMake/project2/src/project2.cc /usr/include/stdc-predef.h \
+ /usr/include/c++/13/iostream /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -161,5 +161,5 @@ CMakeFiles/a.out.dir/main.cc.o: /home/qc/CMake/main.cc \
  /usr/include/c++/13/bits/locale_facets.tcc \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
- /usr/include/c++/13/bits/istream.tcc /home/qc/CMake/pro1.hpp \
- /home/qc/CMake/pro2.hpp
+ /usr/include/c++/13/bits/istream.tcc \
+ /home/qc/CMake/project2/include/project2/project2.hpp

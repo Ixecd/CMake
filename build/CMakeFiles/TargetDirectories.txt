@@ -1,4 +1,4 @@
-/home/qc/CMake/build/CMakeFiles/a.out.dir
+/home/qc/CMake/build/CMakeFiles/main.dir
 /home/qc/CMake/build/CMakeFiles/edit_cache.dir
 /home/qc/CMake/build/CMakeFiles/rebuild_cache.dir
 /home/qc/CMake/build/project1/CMakeFiles/project1.dir

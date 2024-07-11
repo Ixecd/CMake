@@ -1,0 +1,2 @@
+/usr/bin/ar qc /home/qc/CMake/lib/libproject1.a CMakeFiles/project1.dir/src/project1.cc.o
+/usr/bin/ranlib /home/qc/CMake/lib/libproject1.a

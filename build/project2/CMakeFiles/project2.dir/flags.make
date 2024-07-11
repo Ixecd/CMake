@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = /home/qc/CMake/project2/include
+CXX_INCLUDES = -I/home/qc/CMake/project2/include
 
-CXX_FLAGS = -O3 -DNDEBUG
+CXX_FLAGS = -O3 -DNDEBUG -std=c++23
 

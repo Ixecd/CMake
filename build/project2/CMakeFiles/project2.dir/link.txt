@@ -1,0 +1,2 @@
+/usr/bin/ar qc /home/qc/CMake/lib/libproject2.a CMakeFiles/project2.dir/src/project2.cc.o
+/usr/bin/ranlib /home/qc/CMake/lib/libproject2.a

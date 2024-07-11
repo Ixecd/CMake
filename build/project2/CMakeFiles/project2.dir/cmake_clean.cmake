@@ -1,7 +1,8 @@
 file(REMOVE_RECURSE
-  "/home/qc/CMake/lib/project2"
-  "/home/qc/CMake/lib/project2.pdb"
+  "/home/qc/CMake/lib/libproject2.a"
+  "/home/qc/CMake/lib/libproject2.pdb"
   "CMakeFiles/project2.dir/src/project2.cc.o"
+  "CMakeFiles/project2.dir/src/project2.cc.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

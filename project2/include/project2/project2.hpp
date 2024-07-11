@@ -1,3 +1,4 @@
-// namespace project2 {
-//     void print_project2();
-// }
+#pragma once
+namespace project2 {
+    void print_project2();
+}

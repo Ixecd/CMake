@@ -1,7 +1,7 @@
-// #pragma once
+#pragma once
 
-// namespace project1 {
+namespace project1 {
 
-//     void print_project1();
+    void print_project1();
 
-// }
+}

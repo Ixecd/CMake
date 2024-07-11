@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/a.out.dir/main.cc.o CMakeFiles/a.out.dir/project1.cc.o CMakeFiles/a.out.dir/project2.cc.o -o a.out 

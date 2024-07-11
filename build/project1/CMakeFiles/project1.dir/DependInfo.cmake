@@ -4,20 +4,11 @@ set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
 
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
-  "CXX"
-  )
-# The set of files for implicit dependencies of each language:
-set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/qc/CMake/project1/src/project1.cc" "/home/qc/CMake/build/project1/CMakeFiles/project1.dir/src/project1.cc.o"
-  )
-
-# The include file search paths:
-set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/home/qc/CMake/project1/include"
   )
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/qc/CMake/project1/src/project1.cc" "project1/CMakeFiles/project1.dir/src/project1.cc.o" "gcc" "project1/CMakeFiles/project1.dir/src/project1.cc.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
