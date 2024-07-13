@@ -156,3 +156,16 @@
 # -------------- 不提供Config文件的第三方库怎么伺候 --------------
   自己写一个Find文件(FindXXX.cmake,)
   Find文件会在CMake安装时负责安装到/usr/share/cmake/Modules
+
+# -------------- 一些常见的问题 --------------
+  1.find_package(Qt5 REQUIRED) 出错
+   errno: The Qt5 package requires at least one component
+   解决方案: find_package(Qt5 COMPONENTS Widgets Gui REQUIRED)
+   target_link_libraries(main PUBLIC Qt5::Widgets Qt5::Gui)
+  
+  2.Lars中CMakeLists.txt中的配置
+    如果是自己写的lib,在CMakeLists中要 添加头文件搜索路径include_directories(...) 添加自己的静态库的路径link_directories(..)
+    如果是第三方库 先得在前面加上 add_complie_options(-fPIC) (动态库), 再使用find_package(...) 找库(系统默认安装的位置,如果你指定了库的安装位置那就需要重新设置 
+      eg: cmake -B build -DCMAKE_PREFIX=/usr/local/protobuf) 接着就是将当前目录下的所有*.cc 和 *.hpp都加入到srcs变量中,创建可执行文件.下面就是链接
+      target_link_libraries(name PUBLIC lib)
+    如果要将当前项目中的头文件共享给其他项目: target_include_directories(name PUBLIC include) -> 将include下的文件放到环境变量中.
