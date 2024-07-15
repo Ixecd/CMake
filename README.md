@@ -169,3 +169,71 @@
       eg: cmake -B build -DCMAKE_PREFIX=/usr/local/protobuf) 接着就是将当前目录下的所有*.cc 和 *.hpp都加入到srcs变量中,创建可执行文件.下面就是链接
       target_link_libraries(name PUBLIC lib)
     如果要将当前项目中的头文件共享给其他项目: target_include_directories(name PUBLIC include) -> 将include下的文件放到环境变量中.
+
+  3.安装了相应的包但是无法找到
+    第一种方法:设置CMAKE_MODULE_PATH变量,添加一下包含XXXConfig.cmake这个文件的目录路径,eg : set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} /usr/local/XXX/lib/cmake)
+
+    第二种方法:设置XXX_DIR变量,这样只有XXX这个包会去目录里搜索XXXConfig.cmake,更有针对性,eg : set(XXX_DIR /usr/local/XXX/lib/cmake)
+
+    第三种方法(推荐):直接再命令行通过-DXXX_DIR="..."指定
+
+    第四种方法:通过设置环境变量 export 
+
+  4.关于find_package(TBB) 和 find_package(TBB REQUIRED)
+    前者找不到不会报错,后者找不到直接拿头来见
+    前者的实现eg:
+      find_package(TBB)
+      if (TBB_FOUND)
+        message(STATUS "TBB found at: ${TBB_DIR})
+        target_link_libraries(main PUBLIC TBB::tbb)
+        # 找到了,定义WITH_TBB宏,这样在其他文件中可以通过宏定义来是否使用包中的函数
+        target_compile_definitions(main PUBLIC WITH_TBB)
+      else()
+        message(WARNING "TBB not found! using serial for")
+      endif()
+    也可以 :
+      find_package(TBB)
+      # TARGET 伪对象
+      if (TARGET TBB_FOUND)
+        message(STATUS "TBB found at: ${TBB_DIR})
+        target_link_libraries(main PUBLIC TBB::tbb)
+        # 找到了,定义WITH_TBB宏,这样在其他文件中可以通过宏定义来是否使用包中的函数
+        # 相当于在main文件中 #define WITH_TBB
+        target_compile_definitions(main PUBLIC WITH_TBB)
+      else()
+        message(WARNING "TBB not found! using serial for")
+      endif()
+
+    message(...) 直接输出... 调试信息
+    message(STATUS ...) 在前面会带上--符号 状态信息
+    message(WARNING ...) 会以黄色的形式打印出来
+    message(AUTHOR_WARNING ...) 只对项目作者可见, 可以通过cmake -B build -Wno-dev关掉
+    message(FATAL_ERROR ...) 直接出错,以红色形式打印出来,接下来的程序都不会执行.
+    message 中可以直接打印变量 ${var}
+    不确定的情况下都加上""(CMake中一切皆字符串)
+
+# -------------- 变量与缓存 --------------
+  重复执行cmake -B build 会有什么区别?
+    第二次执行的输出很少,CMake第一遍需要检测编译器和C++特性等比较耗时,检测完会把结果存储到缓存中,后面再cmake -B build 的时候就会直接用缓存中的值.
+  如果出现诡异的错误,直接删除build文件重新-B build就行(删build大法)
+  find_package也会使用缓存.
+
+  自己设置缓存变量
+  set(变量名 "变量值" CACHE 变量类型 "注释")
+  eg: set(myvar "hello" CACHE string "this is a string")
+  后面如果这个变量改了不推荐删build大法而是 cmake -B build -Dmyvar=world
+  使用ccmake -B build 可视化配置
+  还可以set(变量名 "变量值" CACHE 变量类型 "注释" FORCE) 强制更新缓存变量.
+
+  缓存变量的类型
+    STRING FILEPATH PATH BOOL
+    注意: TRUE ON 等价 FALESE OFF 等价 YES NO 等价 NO OFF 等价
+  
+  CMake对BOOL类型缓存的set指令提供了简写:option
+  option(变量名 "描述" 变量值)
+  等价于
+  set(变量名 CACHE BOOL 变量值 "描述")
+  CMake区分大小写(只是指令不分)
+
+  变量传播规则:
+    父会传给子,子不传父.要子传父就得 set(MYVAR ON PARENT_SCOPE)就可以往上传递一层.
