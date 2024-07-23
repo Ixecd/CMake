@@ -28,38 +28,38 @@
 # -------------- CMakeLists.txt --------------
   项目分为根项目和多个子项目,每个项目里面都有自己的CMakeLists.txt
   根项目的CMakeLists.txt配置如下:
-  cmake_minimum_required(VERSION 3.18)
+  `cmake_minimum_required(VERSION 3.18)`
 
-  if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
-  endif()
+  `if (NOT CMAKE_BUILD_TYPE)`
+    `set(CMAKE_BUILD_TYPE Release)`
+  `endif()`
 
-  set(CMAKE_CXX_STANDARD 23)
-  set(CMAKE_CXX_STANDARD_REQUIRED ON)
-  set(CMAKE_CXX_EXTENSIONS OFF)
-  set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake;${CMAKE_MODULE_PATH}")
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)   # exe
-  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/lib)   # a
-  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/lib)   # so
+  `set(CMAKE_CXX_STANDARD 23)`
+  `set(CMAKE_CXX_STANDARD_REQUIRED ON)`
+  `set(CMAKE_CXX_EXTENSIONS OFF)`
+  `set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake;${CMAKE_MODULE_PATH}")`
+  `set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)   # exe`
+  `set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/lib)   # a`
+  `set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/lib)   # so`
 
-  project(CppCMakeDemo LANGUAGES C CXX)
+  `project(CppCMakeDemo LANGUAGES C CXX)`
 
-  add_subdirectory(子项目名称1)
-  add_subdirectory(子项目名称2)
+  `add_subdirectory(子项目名称1)`
+  `add_subdirectory(子项目名称2)`
 
-  add_executable(yourapp yourmain.cc)
-  #find_package(TBB CONFIG REQUIRED COMPONENTS tbb)
-  #target_link_libraries(yourapp PUBLIC TBB::tbb)
+  `add_executable(yourapp yourmain.cc)`
+  `#find_package(TBB CONFIG REQUIRED COMPONENTS tbb)`
+  `#target_link_libraries(yourapp PUBLIC TBB::tbb)`
 
 
-  include(MyUsefulFuncs)    # from CMAKE_MODULE_PATH
-  find_package(OpenCV)      # from CMAKE_MODULE_PATH
-  target_link_libraries(yourapp OpenCV::xxx)
+  `include(MyUsefulFuncs)    # from CMAKE_MODULE_PATH`
+  `find_package(OpenCV)      # from CMAKE_MODULE_PATH`
+  `target_link_libraries(yourapp OpenCV::xxx)`
 
   子项目的CMakeLists.txt配置如下:
-  file(GLOB_RECURSE srcs CONFIGURE_DEPENDS src/.cc include/.hpp)
-  add_library(子项目名称 STATIC ${srcs})
-  target_include_directories(子项目名称 PUBLIC include)
+  `file(GLOB_RECURSE srcs CONFIGURE_DEPENDS src/.cc include/.hpp)`
+  `add_library(子项目名称 STATIC ${srcs})`
+  `target_include_directories(子项目名称 PUBLIC include)`
 
 # -------------- EXPLAIN --------------
   下面是解释:
@@ -117,41 +117,41 @@
   使用FindXXX.cmake
 
   如果是特别古代的库
-  find_package(XXX)
+  `find_package(XXX)
   if (NOT XXX_FOUND)
     message(FATAL_ERROR "XXX not found")
   endif()
   target_include_directories(yourapp ${XXX_INCLUDE_DIRS})
-  target_link_libraries(yourapp ${XXX_LIBRARIES})
+  target_link_libraries(yourapp ${XXX_LIBRARIES})`
 
   find_package 还可以指定模式
-  find_package(TBB MODULE REQUIRED)
+  `find_package(TBB MODULE REQUIRED)`
     只会寻找FindTBB.cmake,搜索路径为${CMAKE_MODULE_PATH} (默认为/usr/share/cmake/Modules)
   
-  find_package(TBB CONFIG REQUIRED)
+  `find_package(TBB CONFIG REQUIRED)`
     只会寻找TBBConfig.cmake,搜索路径为${CMAKE_PREFIX_PATH}/lib/cmake/TBB(默认为/usr/lib/cmake/TBB)
     或者 ${TBB_DIR} / $ENV{TBB_DIR}
   
-  find_package(TBB REQUIRED)
+  `find_package(TBB REQUIRED)`
     不指定两者都会尝试,先FindTBB.cmake,再TBBConfig.cmake
 
 # -------------- 亲Unix软件从源码安装的通用套路 --------------
   Makefile 构建系统:
-  ./configure --prefix=/usr --with-some-options   # 生成 Makefile
-  make -j 8                                       # 8核心编译,生成.so
-  sudo make install                               # 安装,拷贝到/usr/lib/.so
+  `./configure --prefix=/usr --with-some-options`   # 生成 Makefile
+  `make -j 8`                                       # 8核心编译,生成.so
+  `sudo make install`                               # 安装,拷贝到/usr/lib/.so
 
   CMake 构建系统:
-  cmake -B build -DCMAKE_INSTALL_PREFIX=/usr -DWITH_SOME_OPTION=ON    # 生成 Makefile
-  cmake --build build --parallel 8                                    # 8核心编译,生成.so
-  sudo cmake --build --target install                                 # 安装,拷贝到/usr/lib/.so
+  `cmake -B build -DCMAKE_INSTALL_PREFIX=/usr -DWITH_SOME_OPTION=ON`    # 生成 Makefile
+  `cmake --build build --parallel 8`                                    # 8核心编译,生成.so
+  `sudo cmake --build --target install`                                 # 安装,拷贝到/usr/lib/.so
 
   注意:如果 -DCMAKE_INSTALL_PREFIX=/usr/local 则会拷贝到/usr/local/lib/.so
 
   在自己的项目中使用安装的动态库:
-  cd yourapp
-  cmake -B build -DTBB_DIR=/usr/lib/cmake/TBB
-  cmake --build build --parallel 8
+  `cd yourapp`
+  `cmake -B build -DTBB_DIR=/usr/lib/cmake/TBB`
+  `cmake --build build --parallel 8`
 
 # -------------- 不提供Config文件的第三方库怎么伺候 --------------
   自己写一个Find文件(FindXXX.cmake,)
@@ -182,7 +182,7 @@
   4.关于find_package(TBB) 和 find_package(TBB REQUIRED)
     前者找不到不会报错,后者找不到直接拿头来见
     前者的实现eg:
-      find_package(TBB)
+      `find_package(TBB)
       if (TBB_FOUND)
         message(STATUS "TBB found at: ${TBB_DIR})
         target_link_libraries(main PUBLIC TBB::tbb)
@@ -190,9 +190,9 @@
         target_compile_definitions(main PUBLIC WITH_TBB)
       else()
         message(WARNING "TBB not found! using serial for")
-      endif()
+      endif()`
     也可以 :
-      find_package(TBB)
+      `find_package(TBB)
       # TARGET 伪对象
       if (TARGET TBB_FOUND)
         message(STATUS "TBB found at: ${TBB_DIR})
@@ -202,14 +202,14 @@
         target_compile_definitions(main PUBLIC WITH_TBB)
       else()
         message(WARNING "TBB not found! using serial for")
-      endif()
+      endif()`
 
-    message(...) 直接输出... 调试信息
+    `message(...) 直接输出... 调试信息
     message(STATUS ...) 在前面会带上--符号 状态信息
     message(WARNING ...) 会以黄色的形式打印出来
     message(AUTHOR_WARNING ...) 只对项目作者可见, 可以通过cmake -B build -Wno-dev关掉
     message(FATAL_ERROR ...) 直接出错,以红色形式打印出来,接下来的程序都不会执行.
-    message 中可以直接打印变量 ${var}
+    message 中可以直接打印变量 ${var}`
     不确定的情况下都加上""(CMake中一切皆字符串)
 
 # -------------- 变量与缓存 --------------
